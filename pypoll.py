@@ -1,6 +1,7 @@
 import csv
 
 import os
+from tkinter import N
 
 
 #  Assign a variable to load a file from a path
@@ -64,46 +65,74 @@ with open(file_to_load) as election_data:
 
       candidate_votes[candidate_name] += 1
 
+# Save the results to my txt file
+
+with open(file_to_save, 'w') as txt_file:
+
+   election_results = (
+
+   f"\nElection Results \n"
+
+   f"---------------------\n"
+
+   f'Total Votes: {total_votes}\n'
+
+   f"---------------------\n")
+
+   print(election_results, end="")
+
+   # save the final vote count to txt
+
+   txt_file.write(election_results)
      
-# Iterate through the candidate list
-    
-for candidate_name in candidate_votes:
+   # Iterate through the candidate list
+      
+   for candidate_name in candidate_votes:
 
-   # Retrieve vote count of a candidate
+      # Retrieve vote count of a candidate
 
-   votes = candidate_votes[candidate_name]
+      votes = candidate_votes[candidate_name]
 
-   # calculate the % of the votes
+      # calculate the % of the votes
 
-   vote_percentage = float(votes) / float(total_votes) * 100
-
-
-   # To Do: print out each cand name, count, and %
-
-   print(f'{candidate_name}: {vote_percentage: .1f}% ({votes:,})\n')
+      vote_percentage = float(votes) / float(total_votes) * 100
 
 
-   if (votes > winning_count) and (vote_percentage > winning_percentage):
+      # To Do: print out each cand name, count, and %
 
-      # If true then set winning_count = votes and winng % = vote %
+      candidate_results = (f'{candidate_name}: {vote_percentage: .1f}% ({votes:,})\n')
 
-      winning_count = votes
+      print(candidate_results)
 
-      winning_percentage = vote_percentage
+      txt_file.write(candidate_results)
 
-      # set winning cand = to cand name
 
-      winning_candidate = candidate_name
 
-winning_candidate_summary = (
-   f"-------------------------\n"
+      if (votes > winning_count) and (vote_percentage > winning_percentage):
 
-   f"Winner: {winning_candidate}\n"
+         # If true then set winning_count = votes and winng % = vote %
 
-   f"Winning Vote Count: {winning_count}\n"
+         winning_count = votes
 
-   f"Winning Percentage: {winning_percentage: .1f}%\n"
+         winning_percentage = vote_percentage
 
-   f"-------------------------\n")
+         # set winning cand = to cand name
 
-print(winning_candidate_summary)
+         winning_candidate = candidate_name
+
+   winning_candidate_summary = (
+         f"-------------------------\n"
+
+         f"Winner: {winning_candidate}\n"
+
+         f"Winning Vote Count: {winning_count}\n"
+
+         f"Winning Percentage: {winning_percentage: .1f}%\n"
+
+         f"-------------------------\n")
+
+   print(winning_candidate_summary)
+
+      #  Save the winning cand name to txt
+
+   txt_file.write(winning_candidate_summary)
